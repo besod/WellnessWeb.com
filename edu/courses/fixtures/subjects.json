@@ -1,0 +1,143 @@
+[
+{
+  "model": "courses.subject",
+  "pk": 1,
+  "fields": {
+    "title": "Health",
+    "slug": "health"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 2,
+  "fields": {
+    "title": "Fitness",
+    "slug": "fitness"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 3,
+  "fields": {
+    "title": "Diet",
+    "slug": "diet"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "subject": 2,
+    "title": "Sports and Society",
+    "slug": "sports-and-society",
+    "overview": "Sports play a giant role in contemporary society worldwide. But few of us pause to think about the larger questions of money, politics, race, sex, culture, and commercialization that surround sports everywhere. This course draws on the tools of anthropology, sociology, history, and other disciplines to give you new perspectives on the games we watch and play.  It's the new and improved version of Professor Orin Starn's original \"Sports and Society\" for Coursera, which drew more than 40,000 students.  We will focus on both popular sports like soccer (or “football,” as anyone outside America calls it), basketball, and baseball, and also lesser-known ones like mountain-climbing and fishing.  You will never watch or think about sports in the same way again.",
+    "created": "2023-09-04T20:31:48.140Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "owner": 1,
+    "subject": 3,
+    "title": "Science of Diet and Exercise Specialization",
+    "slug": "science-of-diet-and-exercise-specialization",
+    "overview": "Break Down the Science of Diet and Exercise. Master the knowledge and skills to identify the diet and exercise interventions required for specific fitness goals.",
+    "created": "2023-09-04T20:35:06.339Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "owner": 1,
+    "subject": 1,
+    "title": "Weight Management: Beyond Balancing Calories",
+    "slug": "weight-management-beyond-balancing-calories",
+    "overview": "Understand obesity, appetite hormones, and weight set point.\r\n\r\nIdentify the main dietary factors that affect weight.\r\n\r\nRecognize underemphasized barriers to weight loss such as stress and inadequate sleep.\r\n\r\nDevelop a weight management plan you can follow for life.",
+    "created": "2023-09-04T20:40:01.842Z"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "title": "Race, Cultural Identity, and the Sports World",
+    "description": "ace and American Sports, Part 1•10 minutes•Preview module\r\nRace and American Sports, Part 2•8 minutes\r\nThe Native American Mascot Controversy•11 minutes\r\nThe Social Demographics of Sports, Part 1•12 minutes\r\nThe Social Demographics of Sports, Part 2•7 minutes\r\nZidane and Bruce Lee, Part 1•6 minutes\r\nZidane and Bruce Lee, Part 2•9 minutes\r\nGolf, Part 1•8 minutes\r\nGolf, Part 2•10 minutes\r\n1 quiz\r\n•\r\nTotal 30 minutes\r\nWeek 3 Quiz•30 minutes"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Gender, Sexuality, and the Rise of Women's Sports",
+    "description": "Short History of Women’s Sports, Part 1•8 minutes•Preview module\r\nA Short History of Women’s Sports, Part 2•11 minutes\r\nWomen’s Sports Today, Part 1•9 minutes\r\nWomen’s Sports Today, Part 2•11 minutes\r\nThe Long Sporting Life of Homophobia, Part 1•10 minutes\r\nThe Long Sporting Life of Homophobia, Part 2•9 minutes\r\nThe Transgender Athlete•10 minutes\r\nThe Fitness Revolution, Part 1•10 minutes\r\nThe Fitness Revolution, Part 2•13 minutes\r\n1 quiz\r\n•\r\nTotal 30 minutes\r\nWeek 4 Quiz•30 minutes"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 3,
+  "fields": {
+    "course": 1,
+    "title": "Globalization, Nationalism, and the Politics of Sports",
+    "description": "The Globalization of Sports•12 minutes•Preview module\r\nNationalism and Sports, Part 1•9 minutes\r\nNationalism and Sports, Part 2•9 minutes\r\nAthletes and Social Activism, Part 1•5 minutes\r\nAthletes and Social Activism, Part 2•9 minutes\r\nAmerican Football, Part 1•9 minutes\r\nAmerican Football, Part 2•9 minutes\r\n1 quiz\r\n•\r\nTotal 30 minutes\r\nWeek 2 Quiz•30 minutes"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 4,
+  "fields": {
+    "course": 2,
+    "title": "Metabolic Makeover",
+    "description": "What you'll learn\r\nLearn the biochemical processes we call metabolism to keep the human body alive.\r\n\r\nCompare approaches used to track calorie intake and energy expenditure requirements.\r\n\r\nDiscover static and dynamic components of metabolism and how they impact weight loss."
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 5,
+  "fields": {
+    "course": 2,
+    "title": "Science of Fat Metabolism",
+    "description": "What you'll learn\r\nLearn the effects of fat metabolism when under acute and chronic stress.\r\n\r\nCompare various forms of lipids (fats) within the body.\r\n\r\nDetermine the role of dietary fat and its function within the body.\r\n\r\nLearn the current dietary guidelines for fat intake."
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 6,
+  "fields": {
+    "course": 2,
+    "title": "Aligning Diet and Exercise",
+    "description": "What you'll learn\r\nAlign common diet archetypes with exercise programming. \r\n\r\nLearn which macronutrients are preferential for specific workout types and training goals. \r\n\r\nCompare the energy pathways, their functions and how they use macronutrients to fuel work. \r\n\r\nLearn the key principles of energy systems within the human body."
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 7,
+  "fields": {
+    "course": 3,
+    "title": "Understanding Obesity",
+    "description": "Since the discovery of the first appetite hormone in the 1990s, the science of obesity has advanced dramatically. The growing understanding of how hunger and weight \"set point\" are regulated is changing the way we need to approach weight loss. This week, we will see how the brain, hormones, gut, and emotions interact to control food intake and weight. By learning about our biology, and how to work with rather than against it, you will become more successful at reaching your goals.\r\n3 videos\r\n4 readings\r\n1 quiz"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 8,
+  "fields": {
+    "course": 3,
+    "title": "Using Habit & Emotions to Your Advantage",
+    "description": "Habits drive many of our everyday choices. Unlike deliberate decisions, habits are carried out instinctively. In addition to knowing about the foods and behaviors we need to adopt, we need to engineer habits to support out goals subconsciously. This week, we will learn how to use habit to our advantage and practice mindfulness when we eat.\r\n3 videos\r\n4 readings\r\n1 quiz"
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 9,
+  "fields": {
+    "course": 3,
+    "title": "Createing a Weight Loss Plan: A Step-Wise Approach",
+    "description": "In this final week, we will apply what we have learned - about our appetite and energy balance systems, about the specific foods and other missing links that affect our set point, and about the power of habit and awareness - into practical steps for designing a long-term successful weight loss plan.\r\n3 videos\r\n4 readings\r\n1 quiz"
+  }
+}
+]
