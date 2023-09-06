@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8 /">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>{% block title %} wellnessWeb {% endblock %}</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    </link>
+</head>
+
+
+
+<body>
+    <nav class="navbar flex items-center w-full">
+        <div class="flex-grow lg:flex lg:items-center lg:w-auto">
+            <ul class="menu w-full justify-end flex-grow lg:flex lg:items-center lg:w-auto ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="shadow-md transition duration-300 transform hover:scale-105">
+                    <a href="{% url 'logout' %}" class="px-4 py-2 mr-1 text-white font-bold hover:bg-blue-400  rounded-lg  ">
+                        Sign out
+                    </a>
+                    {% else %}
+                </li>
+                <li class="shadow-md transition duration-300 transform hover:scale-105">
+                    <a href="{% url 'login' %}" class="px-4 py-2 mr-1 text-white font-bold hover:bg-blue-400 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
+                        Sign in
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // DOM Loaded
+            {% block domready %}
+            {% endblock %}
+        })
+    </script>
+</body>
+
+</html>
