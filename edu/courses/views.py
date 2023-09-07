@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from .models import Course
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 
@@ -19,7 +20,9 @@ class OwnerEditMixin:
         form.instance.owner = self.request.user #current user
         return super().form_valid(form)
     
-class OwnerCourseMixin(OwnerMixin):
+# LoginRequiredMixin: replicates the login_required decorators functionality
+#  PermissionRequiredMixin: grants access to the view to users with specific permission    
+class OwnerCourseMixin(OwnerMixin,LoginRequiredMixin,PermissionRequiredMixin):
     model = Course #used for QuerySets. its used by all views
     fields = ['subject', 'title','slug','overview'] # the fields fo the model to build the model form of the CreateView and UpdateView views 
     success_url = reverse_lazy('manage_course_list') #redirects the user after the form is successfully submitted or object is deleted
@@ -31,16 +34,20 @@ class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
 #inherits from OwnerCourseMixin and ListView. The template listes course
 class ManageCourseListView(OwnerCourseMixin, ListView):
     template_name = 'courses/manage/course/list.html'
+    permission_required = 'courses.view_course'
 
 #inherits from OwnerCourseMixin and and Createview. It uses the template defined in OwnerCourseMixin 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
-    pass 
+    permission_required = 'courses.add_course'
 
 #inherits from OwnerCourseMixin and and Updateview. It uses the template defined in OwnerCourseMixin 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
-    pass 
+    permission_required = 'courses.change_course' 
 
 #inherits from OwnerCourseMixin and and Deleteview. It uses the template to confirm the course delition 
 class CourseDeleteView(OwnerCourseEditMixin, DeleteView):
+    model = Course
     template_name = 'courses/manage/course/delete.html'
+    permission_required = 'courses.delete_course' 
+    
 

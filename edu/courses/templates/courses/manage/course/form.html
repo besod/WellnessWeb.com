@@ -1,0 +1,32 @@
+<!-- This template displays the form for the create and update course views.
+It is used for both coursecreateview and courseupdateview views. 
+Check whether an object variable is in the context, if it exists update or you are creating a new course -->
+
+{% extends 'base.html' %}
+
+{% block titlel %}
+{% if object %}
+Edit course "{{ object.title }}"
+{% else %}
+Create a new course{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<h1>
+    {% if object %}
+    Edit course "{{ object.title }}"
+    {% else %}
+    Create a new course
+    {% endif %}
+</h1>
+
+<div>
+    <h2>Course info</h2>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Save course"></p>
+    </form>
+</div>
+{% endblock %}
