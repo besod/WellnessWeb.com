@@ -16,5 +16,7 @@ urlpatterns = [
     #To update an existing text, video, image, or file object. It includes the module_id and model_name parameters and an id parameter
     #  to identify the content that is being updated.
     path('module/<int:module_id>/content/<model_name>/<id>/', views.ContentCreateUpdateView.as_view(), name='module_content_update'),
+    path('content/<int:id>/delete/', views.ContentDeleteView.as_view(), name='module_content_delete'),
+    path('module/<int:module_id>', views.ModuleContentListView.as_view(), name='module_content_list'),
 
 ]

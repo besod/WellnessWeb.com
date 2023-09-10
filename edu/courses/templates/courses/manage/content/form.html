@@ -13,19 +13,19 @@ Add new content
 {% endblock %}
 
 {% block content %}
-<h1>
+<h1 class="text-2xl font-semibold">
     {% if object %}
     Edit content "{{ object.title }}"
     {% else %}
     Add new content
     {% endif %}
 </h1>
-<div class="module">
-    <h2>Course info</h2>
-    <form action="" method="post" enctype="multipart/form-data">
+<div class="module mt-4">
+    <h2 class="text-lg font-semibold">Course info</h2>
+    <form action="" method="post" enctype="multipart/form-data" class="mt-4">
         {{ form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Save content"></p>
+        <p><input type="submit" value="Save content" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"></p>
     </form>
 </div>
 {% endblock %}

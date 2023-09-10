@@ -6,27 +6,27 @@ Check whether an object variable is in the context, if it exists update or you a
 
 {% block titlel %}
 {% if object %}
-Edit course "{{ object.title }}"
+Edit Course "{{ object.title }}"
 {% else %}
-Create a new course{% endif %}
+Create a New Course
+{% endif %}
 {% endblock %}
 
-
 {% block content %}
-<h1>
+<h1 class="text-2xl font-semibold">
     {% if object %}
-    Edit course "{{ object.title }}"
+    Edit Course "{{ object.title }}"
     {% else %}
-    Create a new course
+    Create a New Course
     {% endif %}
 </h1>
 
-<div>
-    <h2>Course info</h2>
+<div class="mt-4">
+    <h2 class="text-lg font-semibold">Course Info</h2>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Save course"></p>
+        <p><input type="submit" value="Save Course" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"></p>
     </form>
 </div>
 {% endblock %}

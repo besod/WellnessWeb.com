@@ -13,29 +13,35 @@ from django.forms.models import modelform_factory
 from django.apps import apps
 from .models import Module, Content
 
+class ManageCourseListView(ListView):
+    model = Course
+    template_name = 'courses/manage/course/list.html'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(owner=self.request.user)
 
 class OwnerMixin:
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(owner = self.request.user)
+        return qs.filter(owner=self.request.user)
 
 # Implments the form_valid() method, which is used by views that use Django's ModelFormixin mixin    
 class OwnerEditMixin:
     def form_valid(self, form):
-        form.instance.owner = self.request.user #current user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
-    
+
 # LoginRequiredMixin: replicates the login_required decorators functionality
 #  PermissionRequiredMixin: grants access to the view to users with specific permission    
 class OwnerCourseMixin(OwnerMixin,LoginRequiredMixin,PermissionRequiredMixin):
-    model = Course #used for QuerySets. its used by all views
-    fields = ['subject', 'title','slug','overview'] # the fields fo the model to build the model form of the CreateView and UpdateView views 
-    success_url = reverse_lazy('manage_course_list') #redirects the user after the form is successfully submitted or object is deleted
+    model = Course
+    fields = ['subject', 'title', 'slug', 'overview']
+    success_url = reverse_lazy('manage_course_list')
 
 #The templage_name attribute is used for CreateView and UpdateView views
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-    template_name= 'courses/manage/course/form.html'
+    template_name = 'courses/manage/course/form.html'
 
 #inherits from OwnerCourseMixin and ListView. The template listes course
 class ManageCourseListView(OwnerCourseMixin, ListView):
@@ -48,13 +54,13 @@ class CourseCreateView(OwnerCourseEditMixin, CreateView):
 
 #inherits from OwnerCourseMixin and and Updateview. It uses the template defined in OwnerCourseMixin 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
-    permission_required = 'courses.change_course' 
+    permission_required = 'courses.change_course'
 
 #inherits from OwnerCourseMixin and and Deleteview. It uses the template to confirm the course delition 
-class CourseDeleteView(OwnerCourseEditMixin, DeleteView):
-    
+class CourseDeleteView(OwnerCourseMixin, DeleteView):
     template_name = 'courses/manage/course/delete.html'
     permission_required = 'courses.delete_course' 
+
     
 '''This module handles the formset to add, update, and delete modules for courses
 It inherits from TemplateResponseMixin, which renders templates and returns HTTP response.
@@ -158,3 +164,22 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
             return redirect('module_content_list', self.module.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})
+    
+class ContentDeleteView(View):
+    def post(self, request, id):
+        content = get_object_or_404(Content, id=id, module_course_owner=request.user)
+        module=content.module
+        content.item.delet()
+        return redirect('module_onctent_list', module.id)
+
+#This view gets the Module object with the given ID that belongs to the current user and renders a template with the given module 
+class ModuleContentListView(TemplateResponseMixin, View):
+    template_name = 'courses/manage/module/content_list.html'
+
+    def get(self, request, module_id):
+        module = get_object_or_404(Module,
+                                   id=module_id,
+                                   course__owner=request.user)
+        return self.render_to_response({'module': module})
+    
+

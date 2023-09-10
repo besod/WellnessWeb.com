@@ -1,25 +1,29 @@
 {% extends "base.html" %}
 
-{% block title%} {% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
-
-<h1> My courses</h1>
+<h1 class="text-2xl font-semibold">My Courses</h1>
 
 {% for course in object_list %}
-<h3> {{ course.title }}</h3>
-<p>
-    <a href="{% url 'course_edit' course.id %}">Edit</a>
-    <a href="{% url 'course_delete' course.id %}">Delete</a>
-    <a href="{% url 'course_module_update' course.id %}">Edit modules</a>
-</p>
+<div class="mt-4 border p-4 rounded-lg">
+    <h3 class="text-xl font-semibold">{{ course.title }}</h3>
+    <p class="mt-2">
+        <a href="{% url 'course_edit' course.id %}" class="text-blue-500 hover:underline mr-2">Edit</a>
+        <a href="{% url 'course_delete' course.id %}" class="text-red-500 hover:underline mr-2">Delete</a>
+        <a href="{% url 'course_module_update' course.id %}" class="text-blue-500 hover:underline mr-2">Edit Modules</a>
 
+        <!-- The link allows users to access the contents of the first module of the course if there are any. -->
+        {% if course.modules.count > 0 %}
+        <a href="{% url 'module_content_list' course.modules.first.id %}" class="text-blue-500 hover:underline">Manage Contents</a>
+        {% endif %}
+    </p>
+</div>
 {% empty %}
-
-<p>You have not created any courses yet. </p>
-
+<p class="mt-4">You have not created any courses yet.</p>
 {% endfor %}
 
-<p><a href="{% url 'course_create'  %}" class="button">Create new course</a></p>
-
+<p class="mt-4">
+    <a href="{% url 'course_create'  %}" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Create New Course</a>
+</p>
 {% endblock %}
