@@ -1,18 +1,47 @@
 {% extends "base.html" %}
-
 {% block title %}
 Edit "{{ course.title }}"
 {% endblock %}
-
 {% block content %}
-<h1>Edit "{{ course.title }}"</h1>
-<div class="module">
-    <h2>Course modules</h2>
-    <form method="post">
-        {{ formset }}
-        {{ formset.management_form }}
-        {% csrf_token %}
-        <input type="submit" value="Save modules">
-    </form>
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div class="bg-blue-500 text-white font-bold text-2xl shadow-md max-w-md w-full py-4 text-center">
+        <h1 class="text-2xl font-semibold text-center mb-2">Edit "{{ course.title }}"
+    </div>
+    <div class="bg-white p-8 shadow-md rounded-md max-w-md w-full">
+
+
+        <div class="module">
+            <h2 class="text-xl font-semibold mb-2">Course Modules</h2>
+            <form method="post">
+                {{ formset.management_form }}
+                {% csrf_token %}
+
+                {% for form in formset.forms %}
+                <div class="mb-2">
+                    <label class="block font-semibold">Title:</label>
+                    <div class="mt-2 mb-4">
+                        {{ form.title }}
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="block font-semibold">Description:</label>
+                    <div class="mt-2">
+                        {{ form.description }}
+                    </div>
+                </div>
+                <div class="mt-4 mb-6 flex items-center">
+                    {{ form.DELETE }}
+                    <label class="block font-semibold px-4">Delete</label>
+                </div>
+                {% endfor %}
+        </div>
+        <div class="flex justify-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+                Save Modules
+            </button>
+        </div>
+        </form>
+    </div>
 </div>
+
 {% endblock %}

@@ -100,7 +100,7 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
             return redirect('manage_course_list')
         return self.render_to_response({'course': self.course, 'formset':formset})
     
-# This section handles creation and updating of various model's contents.
+''' This section handles creation and updating of various model's contents.'''
 class ContentCreateUpdateView(TemplateResponseMixin, View):
     module = None
     model = None
@@ -167,10 +167,13 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
     
 class ContentDeleteView(View):
     def post(self, request, id):
-        content = get_object_or_404(Content, id=id, module_course_owner=request.user)
+        content = get_object_or_404(Content,
+                                     id=id,
+                                     module_course_owner=request.user)
         module=content.module
         content.item.delet()
-        return redirect('module_onctent_list', module.id)
+        content.delete()
+        return redirect('module_content_list', module.id)
 
 #This view gets the Module object with the given ID that belongs to the current user and renders a template with the given module 
 class ModuleContentListView(TemplateResponseMixin, View):

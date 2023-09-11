@@ -25,6 +25,7 @@ class Course(models.Model):
 
     class Meta:
         ordering = ['created']
+        
 
     def __str__(self) -> str:
         return self. title
@@ -52,6 +53,8 @@ class Content(models.Model):
     #More details https://docs.djangoproject.com/en/4.2/ref/contrib/contenttypes/
     #
     module = models.ForeignKey(Module, related_name='contents', on_delete=models.CASCADE)
+    #model__in field lookup to filter the query to the ContentType objects with
+    # a model attribute that is 'text', 'video', 'image', or 'file'.
     content_type = models.ForeignKey(ContentType,on_delete=models.CASCADE,
                                      limit_choices_to={'model_in':(
                                          'text',
@@ -75,7 +78,8 @@ class Content(models.Model):
 #create an abstract base class model, Meta inheritance 
 #Different model for each type of content is used. Content models will have some common fields, but they differ in the actual data they can store.
 #This allows to create a single interface for different types of content.    
-#Define an abstract model called ItemBase
+#Define an abstract model called ItemBase. Django doesn't create any database tables for abstract model.
+#A database table is created for each child model
 class ItemBase(models.Model):
     #owner field allows you to store which user created the content. So we need a different related_name for each sub-model.
     # Django allows to specify a placeholder for the model class name related_name attribute as %(class)s. the reverse relationship for child models will be text_related,

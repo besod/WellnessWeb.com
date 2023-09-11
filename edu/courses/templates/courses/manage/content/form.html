@@ -13,19 +13,38 @@ Add new content
 {% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-semibold">
-    {% if object %}
-    Edit content "{{ object.title }}"
-    {% else %}
-    Add new content
-    {% endif %}
-</h1>
-<div class="module mt-4">
-    <h2 class="text-lg font-semibold">Course info</h2>
-    <form action="" method="post" enctype="multipart/form-data" class="mt-4">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Save content" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"></p>
-    </form>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 shadow-md rounded-md max-w-md w-full">
+        <h1 class="text-2xl font-semibold text-center mb-4">
+            {% if object %}
+            Edit content "{{ object.title }}"
+            {% else %}
+            Add new content
+            {% endif %}
+        </h1>
+        <div class="module">
+            <h2 class="text-xl font-semibold mb-2">Content info</h2>
+            <form action="" method="post" enctype="multipart/form-data" class="mt-4">
+                <div class="mb-4">
+                    {{ form.title.label_tag }}
+                    <div class="mt-2">
+                        {{ form.title }}
+                    </div>
+                </div>
+                <div class="mb-4">
+                    {{ form.file.label_tag }}
+                    <div class="mt-2">
+                        {{ form.file }}
+                    </div>
+                </div>
+                {% csrf_token %}
+                <div class="mt-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+                        Save content
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

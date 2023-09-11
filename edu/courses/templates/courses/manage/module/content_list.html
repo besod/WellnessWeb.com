@@ -2,74 +2,96 @@
 - iterate over the course modules to display them in a sidebar 
 -u iterate over a module’s contents
 and access content.item to get the related Text, Video, Image, or File object.-->
-{% extends 'base.html' %}
 <!-- This will load the course template tags.See course.py under templatetags -->
 
+{% extends 'base.html' %}
 {% load course %}
 
 {% block title %}
 Module {{ module.order|add:1 }}: {{ module.title }}
 {% endblock %}
-
 {% block content %}
 {% with course=module.course %}
-<h1>Course "{{ course.title }}"</h1>
-<div class="contents">
-    <h3>Modules</h3>
-    <ul id="modules">
-        {% for m in course.modules.all %}
-        <li data-id="{{ m.id }}" {% if m==module } class="selected" {% endif %}>
-            <a href="{% url 'module_content_list' m.id %}">
-                <span>
-                    Module <span class="order">{{ m.order|add:1 }}</span>
-                </span>
-                <br>
-                {{ m.title }}
-            </a>
-        </li>
-        {% empty %}
-        <li>No modules yet.</li>
-        {% endfor %}
-    </ul>
-    <p><a href="{% url 'course_module_update' course.id %}">
-            Edit modules</a></p>
-</div>
-<div class="module">
-    <h2>Module {{ module.order|add:1 }}: {{ module.title }}</h2>
-    <h3>Module contents:</h3>
-    <div id="module-contents">
-        {% for content in module.contents.all %}
-        <div data-id="{{ content.id }}">
-            {% with item=content.item %}
-            <p>{{ item }} ({{ item|model_name }})</p>
-            <a href="{% url 'module_content_update' module.id item|model_name item.id %}">
-                Edit
-            </a>
-            <form action="{% url 'module_content_delete' content.id %}" method="post">
-                <input type="submit" value="Delete">
-                {% csrf_token %}
-            </form>
-            {% endwith %}
-        </div>
-        {% empty %}
-        <p>This module has no contents yet.</p>
-        {% endfor %}
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div class="bg-blue-500 text-white font-bold text-2xl shadow-md max-w-md w-full py-4 text-center">
+        <h1 class="text-2xl font-bold text-center mb-4">Course "{{ course.title }}"</h1>
     </div>
-    <h3>Add new content:</h3>
-    <ul class="content-types">
-        <li>
-            <a href="{% url 'module_content_create' module.id 'text' %}">Text</a>
-        </li>
-        <li>
-            <a href="{% url 'module_content_create' module.id 'image' %}">Image</a>
-        </li>
-        <li>
-            <a href="{% url 'module_content_create' module.id 'video' %}">Video</a>
-        </li>
-        <li>
-            <a href="{% url 'module_content_create' module.id 'file' %}">File</a>
-        </li>
-    </ul>
+    
+    <div class="w-full max-w-3xl p-8 shadow-md rounded-md bg-white">
+        
+        <div class="flex space-x-4">
+            <div class="w-1/4 bg-gray-800 text-white p-4">
+                <h3 class="text-lg font-semibold">Modules</h3>
+                <ul id="modules" class="space-y-2">
+                    {% for m in course.modules.all %}
+                    <li data-id="{{ m.id }}" {% if m == module %} class="bg-gray-600" {% endif %}>
+                        <a href="{% url 'module_content_list' m.id %}">
+                            <span>Module {{ m.order|add:1 }}</span>
+                            <br>
+                            {{ m.title }}
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li>No modules yet.</li>
+                    {% endfor %}
+                </ul>
+                <p class="mt-4">
+                    <a href="{% url 'course_module_update' course.id %}" class="text-blue-600 hover:underline">
+                        Edit modules
+                    </a>
+                </p>
+            </div>
+            <div class="w-3/4">
+                <div class="module">
+                    <h2 class="text-xl font-semibold">Module {{ module.order|add:1 }}: {{ module.title }}</h2>
+                    <h3 class="text-lg font-semibold">Module contents:</h3>
+                    <div id="module-contents" class="space-y-4">
+                        {% for content in module.contents.all %}
+                        <div data-id="{{ content.id }}" class="border rounded-lg p-4">
+                            {% with item=content.item %}
+                            <p>{{ item }} ({{ item|model_name }})</p>
+                            <a href="{% url 'module_content_update' module.id item|model_name item.id %}" class="text-blue-600 hover:underline">
+                                Edit
+                            </a>
+                            <form action="{% url 'module_content_delete' content.id %}" method="post" class="inline">
+                                <input type="submit" value="Delete" class="text-red-600 hover:underline">
+                                {% csrf_token %}
+                            </form>
+                            {% endwith %}
+                        </div>
+                        {% empty %}
+                        <p>This module has no contents yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold mt-4">Add new content:</h3>
+                <ul class="content-types flex space-x-4 mt-2">
+                    <li>
+                        <a href="{% url 'module_content_create' module.id 'text' %}" class="text-blue-600 hover:underline">
+                            Text
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'module_content_create' module.id 'image' %}" class="text-blue-600 hover:underline">
+                            Image
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'module_content_create' module.id 'video' %}" class="text-blue-600 hover:underline">
+                            Video
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'module_content_create' module.id 'file' %}" class="text-blue-600 hover:underline">
+                            File
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 {% endwith %}
 {% endblock %}
+
+

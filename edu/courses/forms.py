@@ -3,6 +3,6 @@ from django.forms.models import inlineformset_factory
 from .models import Course, Module
 
 ModuleFormSet = inlineformset_factory(Course,Module,
-                                      fields=['title', 'description'],
+                                      fields=['title','description'],
                                       can_delete=True,
-                                       extra=3)
+                                       extra=2)

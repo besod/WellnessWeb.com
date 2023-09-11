@@ -4,7 +4,7 @@ Check whether an object variable is in the context, if it exists update or you a
 
 {% extends 'base.html' %}
 
-{% block titlel %}
+{% block title %}
 {% if object %}
 Edit Course "{{ object.title }}"
 {% else %}
@@ -13,20 +13,43 @@ Create a New Course
 {% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-semibold">
-    {% if object %}
-    Edit Course "{{ object.title }}"
-    {% else %}
-    Create a New Course
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    {% if not object %}
+    <div class="bg-blue-500 text-white font-bold text-2xl shadow-md max-w-md w-full py-4 text-center">
+        Create a New Course
+    </div>
     {% endif %}
-</h1>
 
-<div class="mt-4">
-    <h2 class="text-lg font-semibold">Course Info</h2>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Save Course" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"></p>
-    </form>
+    <h1 class="text-2xl font-semibold mb-4 text-center">
+        {% if object %}
+        Edit: "{{ object.title }}"
+        {% endif %}
+    </h1>
+
+    <div class="bg-white p-8 shadow-md rounded-md max-w-md w-full">
+        <div class="mt-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_subject" class="block font-semibold">Subject:</label>
+                    {{ form.subject }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_title" class="block font-semibold">Title:</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_slug" class="block font-semibold">Slug:</label>
+                    {{ form.slug }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_overview" class="block font-semibold">Overview:</label>
+                    {{ form.overview }}
+                </div>
+
+                <p class="text-center"><input type="submit" value="Save Course" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"></p>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
