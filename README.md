@@ -11,6 +11,8 @@ The platform offers courses on various subjects. Each course is divided into a c
 - Add modules to a course and reorder them
 - Add different types of content to each module
 - Reorder course modules and content
+-Log in and log out functions
+-
 
 ### Lessons:
 
@@ -20,3 +22,6 @@ The platform offers courses on various subjects. Each course is divided into a c
 - Create custom model fields
 - Order course contents and modules
 - Build authentication views
+-Install and cofigure Memchached
+-Use the Memcached and Redis cache backends
+
