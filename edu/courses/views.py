@@ -12,6 +12,7 @@ from .forms import ModuleFormSet
 from django.forms.models import modelform_factory
 from django.apps import apps
 from .models import Module, Content
+from braces.views import CsrfExemptMixin,JsonRequestResponseMixin
 
 class ManageCourseListView(ListView):
     model = Course
@@ -184,5 +185,19 @@ class ModuleContentListView(TemplateResponseMixin, View):
                                    id=module_id,
                                    course__owner=request.user)
         return self.render_to_response({'module': module})
-    
 
+'''Reordering Modules and their contents and using mixins from django-braces'''
+#ModuleOrderView updates the order of the course modules.
+#csrfexemptmixin: used to avoid checking the csrf token in POST requests. AJAX POST request is needed with out the need to pass a csrf_token
+#Jsonrequestresponsemixin:parses the request data as json and serializes the response as json and returns http response with json content type
+class ModuleOrderView(CsrfExemptMixin,JsonRequestResponseMixin,View):
+    def post(self, request):
+        for id, order in self.request_json.items():
+            Module.objects.filter(id=id, course_owner=request.user).update(order=order)
+        return self.render_json_response({'saved':'OK'})
+    
+class ContentOrderView(CsrfExemptMixin,JsonRequestResponseMixin,View):
+    def post(self, request):
+        for id, order in self.request_json.items():
+            Content.objects.filter(id=id, module_course_owner=request.user.update(order=order))
+        return self.render_json_response({'saved':'OK'})

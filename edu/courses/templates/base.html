@@ -17,6 +17,20 @@
 
         <nav class="navbar flex items-center w-full">
             <div class="flex-grow lg:flex lg:items-center lg:w-auto">
+                <div class="flex items-center">
+                    <svg height="40" width="">
+                        <defs>
+                          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+                          </linearGradient>
+                        </defs>
+                        <ellipse cx="85" cy="20" rx="20" ry="20" fill="url(#grad1)" />
+                        <text fill="#ffffff" font-size="20" font-weight="bold" font-family="Verdana"  x="10" y="26">WellnessWeb</text>
+                        
+                      </svg>
+                    
+                </div>
                 <ul class="w-full justify-end flex-grow lg:flex lg:items-center lg:w-auto ml-auto">
                     {% if request.user.is_authenticated %}
                     <li class="shadow-md transition duration-300 transform hover:scale-105">
@@ -41,10 +55,14 @@
         </nav>
     </header>
 
-    <div class="flex-grow container mx-auto mt-20">
+    <div class="flex-grow container mx-auto mt-20 pt-6">
         {% block content %} {% endblock %}
     </div>
     <!-- domready:JavaScript event listener for the DOMContentLoaded event. It  allows to execute code when the Document Object Model (DOM) has finished loading. -->
+    <!-- the include_js block allows us to insert JavaScript files in any template that extends base.html template -->
+    {% block include_js %}
+    
+    {% endblock %}
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             // DOM loaded 

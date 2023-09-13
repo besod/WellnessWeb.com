@@ -12,13 +12,14 @@ Module {{ module.order|add:1 }}: {{ module.title }}
 {% endblock %}
 {% block content %}
 {% with course=module.course %}
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <div class="bg-blue-500 text-white font-bold text-2xl shadow-md max-w-md w-full py-4 text-center">
+<div class="bg-blue-500 text-white font-bold text-2xl shadow-md py-4">
+    <div class="container mx-auto px-4">
         <h1 class="text-2xl font-bold text-center mb-4">Course "{{ course.title }}"</h1>
     </div>
-    
-    <div class="w-full max-w-3xl p-8 shadow-md rounded-md bg-white">
-        
+</div>
+
+<div class="container contents mx-auto py-8">
+    <div class="bg-white p-8 shadow-md rounded-md">
         <div class="flex space-x-4">
             <div class="w-1/4 bg-gray-800 text-white p-4">
                 <h3 class="text-lg font-semibold">Modules</h3>
@@ -94,4 +95,51 @@ Module {{ module.order|add:1 }}: {{ module.title }}
 {% endwith %}
 {% endblock %}
 
+{% block include_js %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/
+html5sortable.min.js"></script>
+{% endblock %}
+<!-- This was defined in base.html. jS code will be executed once the page has been loaded. it defines the options for http request to reorder modules.
+POST request will be sent using fetch api to update the module order.  -->
+{% block domready %}
+ var options = {
+ method: 'POST',
+ mode: 'same-origin'
+ }
+ const moduleOrderUrl = '{% url "module_order" %}';
 
+ sortable('#modules', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+    });[0].addEventListener('sortupdate', function(e) {
+        modulesOrder = {};
+        var modules = document.querySelectorAll('#modules li');
+        modules.forEach(function (module, index) {
+        // update module index
+        modulesOrder[module.dataset.id] = index;
+        // update index in HTML element
+        module.querySelector('.order').innerHTML = index + 1;
+        // add new order to the HTTP request options
+        options['body'] = JSON.stringify(modulesOrder);
+        // send HTTP request
+        fetch(moduleOrderUrl, options)
+        });
+        });
+
+        const contentOrderUrl = '{% url "content_order" %}';
+        sortable('#module-contents', {
+        forcePlaceholderSize: true,
+        placeholderClass: 'placeholder'
+        })[0].addEventListener('sortupdate', function(e) {
+        contentOrder = {};
+        var contents = document.querySelectorAll('#module-contents div');
+        contents.forEach(function (content, index) {
+        // update content index
+        contentOrder[content.dataset.id] = index;
+        // add new order to the HTTP request options
+        options['body'] = JSON.stringify(contentOrder);
+        // send HTTP request
+        fetch(contentOrderUrl, options)
+        });
+        });
+{% endblock %}
