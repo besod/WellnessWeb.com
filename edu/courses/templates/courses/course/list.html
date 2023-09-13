@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}
+{% if subject %}
+{{ subject.title }} Courses
+{% else %}
+All Courses
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="container mx-auto p-6 ">
+    <h1 class="text-3xl font-semibold mb-4">
+        {% if subject %}
+        <p class="font-serif font-bold">All {{ subject.title }} Courses</p>
+        {% else %}
+        <p class="font-serif font-bold">Featured Topics by Category</p>
+        {% endif %}
+    </h1>
+
+    <div class="flex">
+        <div class="w-1/4 bg-blue-50 p-4 ">
+            <!-- <p class="text-2xl font-semibold mb-2">Subjects</p> -->
+            <ul id="modules" class="space-y-2  text-xl font-bold font-sans">
+                <li {% if not subject %} class="selected  bg-blue-200" {% endif %}>
+                    <a href="{% url 'course_list' %}" class="  hover:underline">
+                        All courses
+                    </a>
+                </li>
+                {% for s in subjects %}
+                <li class="mb-2 {% if subject.slug == s.slug %} bg-blue-100 {% endif %}">
+                    <a href="{% url 'course_list_subject' s.slug %}" class=" hover:underline">
+                        {{ s.title }}
+                        <br>
+                        <span class="text-gray-600 font-normal">
+                            {{ s.total_courses }} course{{ s.total_courses|pluralize }}
+                        </span>
+                    </a>
+                </li>
+                {% endfor %}
+
+
+            </ul>
+        </div>
+
+        <div class="w-3/4 px-6">
+            <div class="module">
+                <div class="grid grid-cols-1 gap-4">
+                    {% for course in courses %}
+                    {% with subject=course.subject %}
+                    <div class="cursor-pointer bg-white rounded-lg shadow-md p-4 flex card">
+                        <a href="{% url 'course_detail' course.slug %}">
+                            <div class="w-20 h-20 bg-gray-300 rounded-full mr-4"></div>
+                        </a>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold font-sans">
+                                <a href="{% url 'course_detail' course.slug %}" class="text-blue-500 hover:underline">
+                                    {{ course.title }}
+                                </a>
+                            </h3>
+                            <p class="text-gray-600">
+                                <a href="{% url 'course_list_subject' subject.slug %}" class="text-blue-500 hover:underline">{{ subject.title }}</a>.
+                                {{ course.total_modules }} modules.
+                               <p> Instructor: {{ course.owner.get_full_name }}</p>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-end justify-between">
+                            <div class="text-xl font-bold text-right">$$$</div>
+                            <!-- <div class="text-gray-600">Ratings</div> -->
+                        </div>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+    </div>
+</div>
+{% endblock %}
