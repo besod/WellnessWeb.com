@@ -3,16 +3,33 @@
 {{ object.title }}
 {% endblock %}
 {% block content %}
-{% with subject=object.subject %}
-<h1 class="text-3xl font-semibold mb-4">{{ object.title }}</h1>
-<div class="module">
-    <h2 class="text-xl font-semibold mb-2">Course content</h2>
-    <p class="text-gray-600">
-        <a href="{% url 'course_list_subject' object.subject.slug %} " class="text-blue-500 font-bold hover:underline">{{ subject.title }}: </a>
-        {{ object.modules.count }} modules.
-        <p class="mb-4 italic">Instructor:  {{ object.owner.get_full_name }}</p>
-    </p>
-    {{ object.overview|linebreaks }}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold mb-4">{{ object.title }}</h1>
+    
+    <div class="module">
+        {% with subject=object.subject %}
+        <h2 class="text-xl font-semibold mb-2">Course Content</h2>
+        <p class="text-gray-600">
+            <a href="{% url 'course_list_subject' object.subject.slug %}" class="text-blue-500 font-bold hover:underline">{{ subject.title }}:</a>
+            {{ object.modules.count }} modules.
+        </p>
+        <p class="mb-4 italic">Instructor: {{ object.owner.get_full_name }}</p>
+        <!-- Button for enrolling in the course -->
+        {% if request.user.is_authenticated %}
+        <form action="{% url 'student_enroll_course' %}" method="post">
+            {% csrf_token %}
+            {{ enroll_form.as_p }}
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Enroll Now
+            </button>
+        </form>
+        {% else %}
+        <a href="{% url 'student_registration' %}" class="button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+            Register to Enroll
+        </a>
+        {% endif %}
+        </div>
+        {% endwith %}
+    </div>
 </div>
-{% endwith %}
 {% endblock %}

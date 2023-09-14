@@ -22,6 +22,7 @@ class Course(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    students = models.ManyToManyField(User, related_name='course_joined', blank=True)
 
     class Meta:
         ordering = ['created']
@@ -107,3 +108,4 @@ class Image(ItemBase):
 
 class Video(ItemBase):
     url = models.URLField()
+

@@ -2,7 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from .models import Course
+from .models import Course,Module, Content,Subject
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
@@ -11,11 +11,10 @@ from django.views.generic.base import TemplateResponseMixin, View
 from .forms import ModuleFormSet
 from django.forms.models import modelform_factory
 from django.apps import apps
-from .models import Module, Content
 from braces.views import CsrfExemptMixin,JsonRequestResponseMixin
 from django.db.models import Count
-from .models import Subject
 from django.views.generic.detail import DetailView
+from students.forms import CourseEnrollForm
 
 class ManageCourseListView(ListView):
     model = Course
@@ -80,6 +79,14 @@ class CourseListView(TemplateResponseMixin, View):
 class CourseDetailView(DetailView):
     model = Course
     template_name = 'courses/course/detail.html'
+
+    #this method is to include the enrollment form in the context for rendering the templates. 
+    #it initializes the hidden course field for the form with current Course object so that it can be submitted directly
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        context['enroll_form'] = CourseEnrollForm(initial={'course':self.object})
+
+        return context
     
 '''This module handles the formset to add, update, and delete modules for courses
 It inherits from TemplateResponseMixin, which renders templates and returns HTTP response.
