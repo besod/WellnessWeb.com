@@ -1,37 +1,45 @@
-<!-- template for enrolled students to access the contents of a course -->
 {% extends "base.html" %}
 {% block title %}
- {{ object.title }}
+    {{ object.title }}
 {% endblock %}
 {% block content %}
- <h1>
- {{ module.title }}
- </h1>
- <div class="contents">
- <h3>Modules</h3>
- <ul id="modules">
- {% for m in object.modules.all %}
- <li data-id="{{ m.id }}" {% if m == module %}class="selected"{% endif
-%}>
- <a href="{% url "student_course_detail_module" object.id m.id %}">
- <span>
- Module <span class="order">{{ m.order|add:1 }}</span>
- </span>
- <br>
- {{ m.title }}
- </a>
- </li>
- {% empty %}
- <li>No modules yet.</li>
- {% endfor %}
- </ul>
- </div>
- <div class="module">
- {% for content in module.contents.all %}
- {% with item=content.item %}
- <h2>{{ item.title }}</h2>
- {{ item.render }}
- {% endwith %}
- {% endfor %}
- </div>
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold mb-4">
+        {{ module.title }}
+    </h1>
+
+    <div class="flex">
+        <div class="w-1/4 bg-blue-50 p-4">
+            <h3 class="text-xl font-semibold mb-2">Modules</h3>
+            <ul id="modules" class="space-y-2">
+                {% for m in object.modules.all %}
+                <li data-id="{{ m.id }}" {% if m == module %}class="selected bg-blue-200"{% endif %}>
+                    <a href="{% url 'student_course_detail_module' object.id m.id %}" class="text-blue-500 hover:underline">
+                        <span class="text-gray-600 font-bold">
+                            Module {{ m.order|add:1 }}
+                        </span>
+                        <br>
+                        {{ m.title }}
+                    </a>
+                </li>
+                {% empty %}
+                <li>No modules yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="w-3/4">
+            <div class="module">
+                {% for content in module.contents.all %}
+                {% with item=content.item %}
+                <h2 class="text-xl font-semibold mb-2">
+                    {{ item.title }}
+                </h2>
+                {{ item.render }}
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

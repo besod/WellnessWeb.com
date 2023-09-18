@@ -1,22 +1,31 @@
 <!-- template displays the courses that the student is enrolled on.
     when a new student registers with the platform, they will be redirected to the student_course_list URL -->
-{% extends "base.html" %}
-{% block title %}My courses{% endblock %}
-{% block content %}
- <h1>My courses</h1>
- <div class="module">
- {% for course in object_list %}
- <div class="course-info">
- <h3>{{ course.title }}</h3>
- <p><a href="{% url "student_course_detail" course.id %}">
- Access contents</a></p>
- </div>
- {% empty %}
- <p>
- You are not enrolled in any courses yet.
- <a href="{% url "course_list" %}">Browse courses</a>
- to enroll on a course.
- </p>
- {% endfor %}
- </div>
-{% endblock %}
+    {% extends "base.html" %}
+    {% block title %}My Courses{% endblock %}
+    {% block content %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold mb-4">My Courses</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for course in object_list %}
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-xl font-semibold mb-2">{{ course.title }}</h3>
+                <p class="text-gray-600">
+                    <a href="{% url 'student_course_detail' course.id %}" class="text-blue-500 hover:underline">
+                        Access Contents
+                    </a>
+                </p>
+            </div>
+            {% empty %}
+            <p class="text-gray-600 text-center">
+                You are not enrolled in any courses yet.
+                <br>
+                <a href="{% url 'course_list' %}" class="text-blue-500 hover:underline">
+                    Browse Courses
+                </a> to enroll in a course.
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    
