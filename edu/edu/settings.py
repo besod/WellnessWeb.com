@@ -28,12 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379',
-    }
-}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,11 +44,10 @@ INSTALLED_APPS = [
     'embed_video',
     'debug_toolbar',
     'redisboard',
+    'rest_framework',
 ]
 
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 60*15
-CACHE_MIDDLEWARE_KEY_PREFIX = 'edu'
+
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -147,9 +141,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #This is the setting used by the auth module to redirect the student after a successful login if no
 # next parameter is present in the request. After a successful login, a student will be redirected to the
 # student_course_list URL to view the courses that they are enrolled on.
+
 from django.urls import reverse_lazy
 LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
+
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 60 * 15  # 15 minutes
+CACHE_MIDDLEWARE_KEY_PREFIX = 'edu'
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+      'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

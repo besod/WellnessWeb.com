@@ -25,3 +25,5 @@ The platform offers courses on various subjects. Each course is divided into a c
 -Install and cofigure Memchached
 -Use the Memcached and Redis cache backends
 
+-Initialize the Redis Docker container using the following command:
+docker run -it --rm --name redis -p 6379:6379 redis
